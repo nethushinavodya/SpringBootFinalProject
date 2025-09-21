@@ -14,7 +14,6 @@ environment that connects all participants in one digital space.
 <img width="1920" height="1080" alt="Screenshot (104)" src="https://github.com/user-attachments/assets/aa631610-7e9c-4e2d-9ef2-5f51fcda22b0" />
 <img width="1920" height="1080" alt="Screenshot (109)" src="https://github.com/user-attachments/assets/2b28aee0-964b-4d09-a7a1-9af48f737ee6" />
 <img width="1920" height="1080" alt="Screenshot (105)" src="https://github.com/user-attachments/assets/ed6ab7a0-cd33-4ca2-8500-01b29a04a5a8" />
-![WhatsApp Image 2025-09-21 at 16 45 40_b21d6bf2](https://github.com/user-attachments/assets/d27c57fa-6311-4671-80d2-edee519e3f27)
-<img width="1920" height="1080" alt="Screenshot (107)" src="https://github.com/user-attachments/assets/5400687e-8029-463c-8d19-26215294b22f" />
+<img width="1920" height="10![WhatsApp Image 2025-09-21 at 16 45 40_b21d6bf2](https://github.com/user-attachments/assets/0906a9dc-2f53-45e7-ab1e-eea5696e3e3c)
+80" alt="Screenshot (107)" src="https://github.com/user-attachments/assets/5400687e-8029-463c-8d19-26215294b22f" />
 
-<img width="1920" height="1080" alt="Screenshot (105)" src="https://github.com/user-attachments/assets/c55af1eb-de36-4871-93a7-97fc775e26ab" />
