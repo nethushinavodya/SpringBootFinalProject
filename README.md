@@ -10,7 +10,7 @@ support for real-time clan chat, leaderboards, payment integration, and live str
 GameArenaX aims to deliver a fully integrated, scalable, and user-friendly esports 
 environment that connects all participants in one digital space. 
 
-#Screenshots
+## 📸 Screenshots  
 
 <img width="1920" height="1080" alt="Screenshot (104)" src="https://github.com/user-attachments/assets/0e9ed4ae-e7c4-463d-96b8-bee89e05bfd5" />
 <img width="1920" height="1080" alt="Screenshot (105)" src="https://github.com/user-attachments/assets/e9208f5d-6fe8-4fca-809d-458612d5ea01" />
@@ -18,4 +18,8 @@ environment that connects all participants in one digital space.
 <img width="1920" height="1080" alt="Screenshot (107)" src="https://github.com/user-attachments/assets/6d9702ac-1649-45b9-8633-261a9bf3daa1" />
 <img width="1280" height="720" alt="Brackets" src="https://github.com/user-attachments/assets/1357e611-f619-4366-a3ca-5146516c6a08" />
 
+
+## 🎥 Project Demo(youtube)  
+
 [![Watch the video](https://img.youtube.com/vi/DEx0rPgRWS8/0.jpg)](https://youtu.be/DEx0rPgRWS8)
+
