@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+    <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+    <meta charset="utf-8"/>
+    <title>User Profile -  User Platform</title>
+    <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style src="https://cdn.tailwindcss.com"></style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <!--fontawesome-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet"/>
+    <!--css-->
+    <link href="assets/css/home.css" rel="stylesheet" type="text/css"/>
+    <link href="assets/css/main.css" rel="stylesheet" type="text/css"/>
+    <link href="assets/css/main4.css" rel="stylesheet" type="text/css"/>
+    <link href="assets/css/tailwind.css" rel="stylesheet" type="text/css"/>
+    <style>
+        /* Add this to your CSS to improve the dropdown appearance */
+        #userDropdown {
+            z-index: 1000;
+            border: 1px solid #374151;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        #userDropdown a:hover {
+            background-color: #374151 !important;
+            color: #00ffcc !important;
+        }
+
+        .platform-selector {
+            scrollbar-width: thin;
+            scrollbar-color: #374151 #111827;
+        }
+
+        .platform-selector::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .platform-selector::-webkit-scrollbar-track {
+            background: #111827;
+            border-radius: 4px;
+        }
+
+        .platform-selector::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 4px;
+        }
+
+        .platform-selector::-webkit-scrollbar-thumb:hover {
+            background: #4B5563;
+        }
+
+        .stream-embed {
+            border: 2px solid #374151;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .platform-tab.active {
+            background-color: #22c55e;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen text-text-primary font-inter">
+
+<div class="relative flex size-full min-h-screen flex-col overflow-x-hidden " style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+  <!-- Dashboard Header -->
+    <section class="bg-surface border-b border-surface-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                <div class="flex items-center mb-4">
+                    <a href="liveStreamings.html" class="text-text-secondary hover:text-primary transition-colors mr-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </a>
+                    <div>
+                        <h1 class="text-3xl font-bold mb-2">Live Streams</h1>
+                        <p class="text-text-secondary">Watch multiple tournaments simultaneously with advanced controls</p>
+                    </div>
+                </div>
+
+                <!-- Live Stats -->
+                <div class="flex items-center space-x-6">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-primary font-mono">1.2M</div>
+                        <div class="text-xs text-text-secondary">Total Viewers</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-accent font-mono">47</div>
+                        <div class="text-xs text-text-secondary">Live Tournaments</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-warning font-mono">12</div>
+                        <div class="text-xs text-text-secondary">Games Active</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Dashboard Content -->
+    <div class="w-full items-center justify-center mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex items-center justify-center flex-col gap-6">
+            <!-- Primary Stream (70% viewport) -->
+            <div class="xl:w-3/4">
+                <!-- Featured Tournament Stream -->
+                <div class="bg-surface rounded-xl overflow-hidden border border-surface-light mb-6">
+                    <!-- Stream Header -->
+                    <div class="flex items-center justify-between p-4 border-b border-surface-light">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex items-center space-x-2">
+                                <span class="live-indicator">LIVE</span>
+                                <h2 id="tournamentName" class="text-xl font-semibold"></h2>
+                            </div>
+
+                            <!--tournament type = solo or team,clan-->
+                            <span id="tournamentType" class="text-sm font-medium text-text-secondary"></span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="flex items-center space-x-2 text-text-secondary">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                                </svg>
+                                <span id="viewerCount" class="font-mono font-medium">234,567</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Video Player -->
+                    <div class="relative aspect-video bg-black">
+                        <div id="liveStreamContainer" class="w-full h-full stream-embed">
+
+                        </div>
+                    </div>
+
+                    <!-- Stream Controls -->
+                    <div class="p-4 border-t border-surface-light">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <!-- Quality Selector -->
+                                <div class="relative">
+                                    <select class="bg-surface-light border border-surface-lighter rounded-md px-3 py-1 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-primary">
+                                        <option value="auto" selected>Auto Quality</option>
+                                        <option value="1080p">1080p</option>
+                                        <option value="720p">720p</option>
+                                        <option value="480p">480p</option>
+                                    </select>
+                                </div>
+
+                                <!-- Volume Control -->
+                                <button class="bg-surface-light rounded-md px-3 py-1 text-sm text-text-secondary hover:text-primary transition-colors duration-200">
+                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+                                    </svg>
+                                    Volume
+                                </button>
+
+                                <!-- Fullscreen -->
+                                <button onclick="toggleFullscreen()" class="bg-surface-light rounded-md px-3 py-1 text-sm text-text-secondary hover:text-primary transition-colors duration-200">
+                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+                                    </svg>
+                                    Fullscreen
+                                </button>
+                            </div>
+
+                            <div class="flex items-center space-x-2">
+                                <!-- Share Button -->
+                                <button class="bg-surface-light rounded-md px-3 py-1 text-sm text-text-secondary hover:text-primary transition-colors duration-200">
+                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"/>
+                                    </svg>
+                                    Share
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <!-- Live Chat -->
+                        <div class="bg-surface rounded-xl border border-surface-light ">
+                            <div class="p-4 border-b border-surface-light">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-semibold">Tournament Chat</h3>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
+                                        <span class="text-accent text-sm font-medium">Live</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="h-80 overflow-y-auto p-4 space-y-3">
+                                <!-- Chat Messages -->
+                                <div class="flex items-start space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=24&auto=format&fit=crop" alt="User" class="w-6 h-6 rounded-full flex-shrink-0" onerror="this.src='https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=24'; this.onerror=null;" />
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-primary text-sm font-medium">ProGamer2025</span>
+                                            <span class="text-text-muted text-xs">now</span>
+                                        </div>
+                                        <p class="text-text-secondary text-sm">INSANE CLUTCH! 🔥🔥🔥</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start space-x-2">
+                                    <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=24" alt="User" class="w-6 h-6 rounded-full flex-shrink-0" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=24&auto=format&fit=crop'; this.onerror=null;" />
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-primary text-sm font-medium">CS2Fan</span>
+                                            <span class="text-text-muted text-xs">1m</span>
+                                        </div>
+                                        <p class="text-text-secondary text-sm">s1mple is just different level</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=24&auto=format&fit=crop" alt="User" class="w-6 h-6 rounded-full flex-shrink-0" onerror="this.src='https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=24'; this.onerror=null;" />
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-primary text-sm font-medium">TournamentWatcher</span>
+                                            <span class="text-text-muted text-xs">2m</span>
+                                        </div>
+                                        <p class="text-text-secondary text-sm">This match is going to OT for sure</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=24&auto=format&fit=crop" alt="User" class="w-6 h-6 rounded-full flex-shrink-0" onerror="this.src='https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=24'; this.onerror=null;" />
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-primary text-sm font-medium">EsportsLover</span>
+                                            <span class="text-text-muted text-xs">3m</span>
+                                        </div>
+                                        <p class="text-text-secondary text-sm">FaZe needs to step up their game</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start space-x-2">
+                                    <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=24" alt="User" class="w-6 h-6 rounded-full flex-shrink-0" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=24&auto=format&fit=crop'; this.onerror=null;" />
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-primary text-sm font-medium">StreamViewer</span>
+                                            <span class="text-text-muted text-xs">4m</span>
+                                        </div>
+                                        <p class="text-text-secondary text-sm">Best tournament of the year! 🏆</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-4 border-t border-surface-light">
+                                <div class="flex items-center space-x-2">
+                                    <input type="text" placeholder="Type your message..." class="flex-1 bg-surface-light border border-surface-lighter rounded-md px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+                                    <button class="bg-primary text-slate-900 rounded-md p-2 hover:bg-primary-400 transition-colors duration-200">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-surface border-t border-surface-700 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center">
+                <p class="text-text-secondary text-sm">© 2025 GameHub. All Rights Reserved.</p>
+                <p class="text-text-secondary text-xs mt-2">Empowering gamers worldwide</p>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+<script>
+    // Fullscreen functionality
+    function toggleFullscreen() {
+        const streamContainer = document.getElementById('streamContainer');
+
+        if (!document.fullscreenElement) {
+            streamContainer.requestFullscreen().catch(err => {
+                console.log(`Error attempting to enable fullscreen: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    }
+
+    $(document).ready(function () {
+        const username = localStorage.getItem("username");
+
+        if (username) {
+            $("#loginBtnNav").hide();
+            $("#userProfile").show();
+        } else {
+            $("#loginBtnNav").show();
+            $("#userProfile").hide();
+        }
+    });
+
+    // Close modal when clicking outside
+    document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+        backdrop.addEventListener('click', function(e) {
+            if (e.target === backdrop) {
+                backdrop.classList.remove('active');
+            }
+        });
+    });
+
+    const inputs = document.querySelectorAll(".otp-input");
+
+    inputs.forEach((input, index) => {
+        input.addEventListener("input", (e) => {
+            if (e.target.value.length === 1 && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            }
+        });
+
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Backspace" && !e.target.value && index > 0) {
+                inputs[index - 1].focus();
+            }
+        });
+    });
+
+    function createParticle() {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+
+        const size = Math.random() * 6 + 3;
+        particle.style.setProperty('--size', size + 'px');
+
+        particle.style.setProperty('--drift', (Math.random() * 100 - 50) + 'px');
+
+        particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+        particle.style.animationDelay = Math.random() * 2 + 's';
+
+        const particlesContainer = document.querySelector('.particles');
+        if (particlesContainer) {
+            particlesContainer.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, parseFloat(particle.style.animationDuration) * 1000);
+        }
+    }
+
+    setInterval(createParticle, 500);
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.card-glow').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(card);
+    });
+
+    window.addEventListener('scroll', () => {
+        const header = document.querySelector('header');
+        if (window.scrollY > 100) {
+            header.style.background = 'rgba(6, 6, 8, 0.95)';
+        } else {
+            header.style.background = 'rgba(10, 10, 15, 0.8)';
+        }
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const userDropdownBtn = document.getElementById('userDropdownBtn');
+        const userDropdown = document.getElementById('userDropdown');
+/*
+        const logoutBtn = document.getElementById('logoutBtn');
+*/
+
+        userDropdownBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userDropdown.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!userDropdown.contains(e.target) && !userDropdownBtn.contains(e.target)) {
+                userDropdown.classList.add('hidden');
+            }
+        });
+
+/*
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            console.log('User logged out');
+
+            document.getElementById('userProfile').style.display = 'none';
+            document.getElementById('loginBtnNav').style.display = 'block';
+
+            userDropdown.classList.add('hidden');
+        });
+*/
+
+        const dropdownLinks = userDropdown.querySelectorAll('a');
+        dropdownLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                userDropdown.classList.add('hidden');
+            });
+        });
+    });
+
+    function showUserProfile(username) {
+        document.getElementById('userProfile').style.display = 'flex';
+        document.getElementById('loginBtnNav').style.display = 'none';
+    }
+</script>
+
+<script src="assets/jq/jquery-3.7.1.min.js"></script>
+<script src="js/signup.js"></script>
+<script src="js/live.js"></script>
+</body>
+</html>

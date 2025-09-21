@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+    <link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+    <title>Player Application</title>
+    <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style src="https://cdn.tailwindcss.com"></style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <!--fontawesome-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet"/>
+    <!--css-->
+    <link href="assets/css/home.css" rel="stylesheet" type="text/css"/>
+    <link href="assets/css/main3.css" rel="stylesheet" type="text/css"/>
+    <link href="assets/css/main.css" rel="stylesheet" type="text/css"/>
+    <link href="assets/css/tailwind.css" rel="stylesheet" type="text/css"/>
+    <style>
+        /* Add this to your CSS to improve the dropdown appearance */
+        #userDropdown {
+            z-index: 1000;
+            border: 1px solid #374151;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        #userDropdown a:hover {
+            background-color: #374151 !important;
+            color: #00ffcc !important;
+        }
+    </style>
+</head>
+<body class="bg-background text-text-primary font-inter min-h-screen">
+<div class="relative flex size-full min-h-screen flex-col overflow-x-hidden " style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+    <!-- Navigation Header -->
+    <header class="flex items-center justify-between whitespace-nowrap border-b border-solid-1 border-b-[#34C759] px-10 py-4 shadow-lg sticky top-0 header-blur z-50">
+        <div class="flex items-center gap-3 text-white">
+            <div class="size-10 text-[#00ffcc] logo-glow cursor-pointer">
+                <svg
+                        fill="none"
+                        viewBox="0 0 48 48"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-10 h-10"
+                >
+                    <path
+                            clip-rule="evenodd"
+                            d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z"
+                            fill="currentColor"
+                            fill-rule="evenodd"
+                    />
+                    <path
+                            clip-rule="evenodd"
+                            d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z"
+                            fill="currentColor"
+                            fill-rule="evenodd"
+                    />
+                </svg>
+            </div>
+            <h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em] neon-text">
+                GameArenaX
+            </h2>
+        </div>
+        <nav class="flex flex-1 justify-end gap-2 right-0">
+            <!-- Nav links (always visible) -->
+            <nav class="flex items-center  gap-5">
+                <a class="text-gray-300 nav-link" href="index2.html">Home</a>
+                <a class="text-gray-300 nav-link text-sm sm:text-base" href="liveStreamings.html">
+      <span class="inline-flex items-center space-x-1">
+        <span class="relative flex w-1.5 h-1.5">
+          <span class="absolute inline-flex w-full h-full rounded-full bg-[#ff0000] opacity-80 animate-ping"></span>
+          <span class="relative w-1.5 h-1.5 bg-[#ff0000] rounded-full"></span>
+        </span>
+        <span class="font-medium">Live</span>
+      </span>
+                </a>
+                <a class="text-gray-300  nav-link" href="tournament.html">Tournaments</a>
+                <a class="text-gray-300  nav-link" href="clan_directory.html">Clans</a>
+            </nav>
+
+            <!-- Login button (only visible before login) -->
+            <button id="loginBtnNav"
+                    class="flex min-w-[100px] max-w-[400px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-9 px-5 border-2 border-[#22c55e] text-[#22c55e] text-sm font-semibold tracking-wide relative transition-all duration-300 ease-in-out hover:text-white"
+                    onclick="openLoginModal()">
+                <span class="relative z-10">Login</span>
+                <span class="absolute inset-0 rounded-full border-2 border-[#22c55e] opacity-50 transition-all duration-500 ease-in-out hover:scale-110 hover:opacity-100"></span>
+                <span class="absolute inset-0 bg-gradient-to-r from-[#22c55e] to-[#16a34a] opacity-0 rounded-full transition-opacity duration-300 ease-in-out hover:opacity-20"></span>
+            </button>
+
+            <!-- Player profile (only visible after login) -->
+            <div class="flex items-center space-x-3" id="userProfile" style="display: none">
+                <span class="hidden sm:block text-sm font-medium" id="usernameDisplay"></span>
+                <!--user dropdown menu for edit profile,Apply as a streamer,Apply as a player and logout-->
+                <div class="relative inline-block text-left">
+                    <div>
+                        <button id="userDropdownBtn" type="button" class="text-green-400 hover:text-green-300 transition-colors">
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-200" id="dropdownArrow"></i>
+                        </button>
+                    </div>
+                    <div id="userDropdown" class="hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-black">
+                        <a href="streamer_profile_edit.html" class="block px-4 py-2 text-sm text-white hover:bg-gray-700">Edit Profile</a>
+                        <a href="player_application.html" class="block px-4 py-2 text-sm text-white hover:bg-gray-700">Apply as a Player</a>
+                        <!--
+                                            <a href=""  id="logoutBtn" class="block px-4 py-2 text-sm text-red-400 hover:bg-gray-700">Logout</a>
+                        -->
+                        <!-- &lt;!&ndash; Logout button (only visible after login) &ndash;&gt;
+                         <div class="flex items-center gap-4">
+                             <button id="logoutBtn" class="text-red-400 hover:text-red-300 transition-colors">
+                                 <span class="hidden sm:block">Logout</span>
+                                 <i class="fas fa-sign-out-alt text-xl"></i>
+                             </button>
+                         </div>-->
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <div class="flex items-center mb-4">
+                <a href="index2.html" class="text-text-secondary hover:text-primary transition-colors mr-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </a>
+                <div>
+                    <h1 class="text-3xl font-bold text-gaming-heading">Create Your Clan</h1>
+                    <p class="text-text-secondary">Establish a new esports community and lead your team to victory</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Clan Form -->
+        <form id="create-clan-form" class="space-y-8">
+            <!-- Clan Identity Section -->
+            <div class="bg-surface rounded-lg border border-accent/20 p-6 shadow-gaming-subtle">
+                <div class="flex items-center mb-6">
+                    <div class="bg-accent/10 rounded-lg p-3 mr-4">
+                        <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-semibold text-text-primary">Clan Identity</h2>
+                        <p class="text-text-secondary text-sm">Define your clan's name and visual identity</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Clan Logo Upload -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-3">Clan Logo</label>
+                        <div id="logo-drop-zone" class="border-2 border-dashed border-gaming-light hover:border-accent/50 rounded-lg p-6 text-center transition-gaming cursor-pointer bg-surface-800/30">
+                            <div id="logo-upload-content">
+                                <svg class="mx-auto h-12 w-12 text-text-secondary mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                                </svg>
+                                <p class="text-text-primary mb-2">Drop your logo here or <span class="text-accent">browse files</span></p>
+                                <p class="text-text-secondary text-xs">PNG, JPG up to 2MB (Recommended: 200x200px)</p>
+                            </div>
+                            <div id="logo-preview" class="hidden">
+                                <img id="logo-image" src alt="Logo preview" class="w-24 h-24 mx-auto rounded-lg object-cover border-2 border-accent" />
+                                <p class="text-accent text-sm mt-2">Logo uploaded successfully</p>
+                                <button type="button" id="remove-logo" class="text-error text-xs hover:underline mt-1">Remove</button>
+                            </div>
+                        </div>
+                        <input type="file" id="logo-input" class="hidden" accept="image/*" />
+                    </div>
+
+                    <!-- Banner Upload -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-3">Clan Banner</label>
+                        <div id="banner-drop-zone" class="border-2 border-dashed border-gaming-light hover:border-accent/50 rounded-lg p-6 text-center transition-gaming cursor-pointer bg-surface-800/30">
+                            <div id="banner-upload-content">
+                                <svg class="mx-auto h-12 w-12 text-text-secondary mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                <p class="text-text-primary mb-2">Drop your banner here or <span class="text-accent">browse files</span></p>
+                                <p class="text-text-secondary text-xs">PNG, JPG up to 5MB (Recommended: 1200x400px)</p>
+                            </div>
+                            <div id="banner-preview" class="hidden">
+                                <img id="banner-image" src alt="Banner preview" class="w-full h-20 mx-auto rounded-lg object-cover border-2 border-accent" />
+                                <p class="text-accent text-sm mt-2">Banner uploaded successfully</p>
+                                <button type="button" id="remove-banner" class="text-error text-xs hover:underline mt-1">Remove</button>
+                            </div>
+                        </div>
+                        <input type="file" id="banner-input" class="hidden" accept="image/*" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Basic Information Section -->
+            <div class="bg-surface rounded-lg border border-accent/20 p-6 shadow-gaming-subtle">
+                <div class="flex items-center mb-6">
+                    <div class="bg-accent/10 rounded-lg p-3 mr-4">
+                        <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-semibold text-text-primary">Basic Information</h2>
+                        <p class="text-text-secondary text-sm">Essential details about your clan</p>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Clan Name -->
+                    <div>
+                        <label for="clan-name" class="block text-sm font-medium text-text-primary mb-2">
+                            Clan Name <span class="text-error">*</span>
+                        </label>
+                        <div class="relative">
+                            <input  id="clan-name" name="clanName" required maxlength="50" class="block w-full px-4 py-3 border border-gaming bg-surface-800 rounded-md text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-gaming" placeholder="Enter your clan name..." />
+                            <div id="name-check" class="absolute right-3 top-3 hidden">
+                                <svg id="name-available" class="w-6 h-6 text-accent hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <svg id="name-taken" class="w-6 h-6 text-error hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div id="name-feedback" class="mt-1 text-sm hidden">
+                            <p id="name-available-text" class="text-accent hidden">✓ Name is available</p>
+                            <p id="name-taken-text" class="text-error hidden">✗ Name is already taken</p>
+                        </div>
+                        <p class="text-text-secondary text-xs mt-1">Choose a unique name that represents your clan's identity</p>
+                    </div>
+
+                    <!-- Contact Email -->
+                    <div>
+                        <label for="clan-email" class="block text-sm font-medium text-text-primary mb-2">
+                            Contact Email <span class="text-error">*</span>
+                        </label>
+                        <input id="clan-email" name="clanEmail" required class="block w-full px-4 py-3 border border-gaming bg-surface-800 rounded-md text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-gaming" placeholder="clan@example.com" />
+                        <p class="text-text-secondary text-xs mt-1">Primary contact email for clan communications</p>
+                    </div>
+
+                    <!-- Clan Description -->
+                    <div>
+                        <label for="clan-description" class="block text-sm font-medium text-text-primary mb-2">
+                            Clan Description
+                        </label>
+                        <textarea id="clan-description" name="clanDescription" rows="4" maxlength="1000" class="block w-full px-4 py-3 border border-gaming bg-surface-800 rounded-md text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-gaming resize-none" placeholder="Describe your clan's mission, playstyle, goals, and what makes you unique..."></textarea>
+                        <div class="flex justify-between mt-1">
+                            <p class="text-text-secondary text-xs">Tell potential members what your clan is all about</p>
+                            <span id="char-count" class="text-text-secondary text-xs">0/1000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clan Settings Section -->
+            <div class="bg-surface rounded-lg border border-accent/20 p-6 shadow-gaming-subtle">
+                <div class="flex items-center mb-6">
+                    <div class="bg-accent/10 rounded-lg p-3 mr-4">
+                        <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-semibold text-text-primary">Clan Settings</h2>
+                        <p class="text-text-secondary text-sm">Configure membership and access settings</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Member Limit -->
+                    <div>
+                        <label for="member-limit" class="block text-sm font-medium text-text-primary mb-3">
+                            Member Limit
+                        </label>
+                        <div class="space-y-3">
+                            <input type="range" id="member-limit" name="memberLimit" min="10" max="100" value="50" class="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent" />
+                            <div class="flex justify-between items-center">
+                                <span class="text-text-secondary text-sm">10 members</span>
+                                <div class="bg-accent/10 px-4 py-2 rounded-lg border border-accent/30">
+                                    <span class="text-accent font-semibold text-lg" id="member-limit-display">50</span>
+                                    <span class="text-text-secondary text-sm ml-1">members</span>
+                                </div>
+                                <span class="text-text-secondary text-sm">100 members</span>
+                            </div>
+                        </div>
+                        <p class="text-text-secondary text-xs mt-2">Set the maximum number of members for your clan</p>
+                    </div>
+
+                    <!-- Clan Type -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-3">
+                            Clan Type <span class="text-error">*</span>
+                        </label>
+                        <div class="space-y-3">
+                            <div class="flex items-start space-x-3 p-4 border border-gaming rounded-lg hover:border-accent/50 transition-gaming cursor-pointer clan-type-option" data-type="OPEN">
+                                <input type="radio" id="type-open" name="clanType" value="OPEN" class="mt-1 text-accent focus:ring-accent" />
+                                <div class="flex-1">
+                                    <label for="type-open" class="block text-text-primary font-medium cursor-pointer">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-accent text-white mr-2">OPEN</span>
+                                        Open Clan
+                                    </label>
+                                    <p class="text-text-secondary text-sm mt-1">Anyone can join instantly without approval</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-3 p-4 border border-gaming rounded-lg hover:border-accent/50 transition-gaming cursor-pointer clan-type-option" data-type="REQUEST">
+                                <input type="radio" id="type-request" name="clanType" value="REQUEST" class="mt-1 text-accent focus:ring-accent" />
+                                <div class="flex-1">
+                                    <label for="type-request" class="block text-text-primary font-medium cursor-pointer">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-warning text-white mr-2">REQUEST</span>
+                                        Request Only
+                                    </label>
+                                    <p class="text-text-secondary text-sm mt-1">Players must send a request and wait for approval</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-3 p-4 border border-gaming rounded-lg hover:border-accent/50 transition-gaming cursor-pointer clan-type-option" data-type="CLOSED">
+                                <input type="radio" id="type-closed" name="clanType" value="CLOSED" class="mt-1 text-accent focus:ring-accent" />
+                                <div class="flex-1">
+                                    <label for="type-closed" class="block text-text-primary font-medium cursor-pointer">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-error text-white mr-2">CLOSED</span>
+                                        Closed Clan
+                                    </label>
+                                    <p class="text-text-secondary text-sm mt-1">Invitation only - members can only be invited by leadership</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-6">
+                <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                    <button
+                            type="button"
+                            class="px-6 py-3 bg-surface-700 hover:bg-surface-800 border border-surface-700 rounded-gaming text-text-primary font-medium transition-all btn-gaming focus:outline-none focus:ring-2 focus:ring-surface-700 focus:ring-offset-2 focus:ring-offset-background"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                            type="submit"
+                            class="px-8 py-3 bg-gradient-to-r from-primary to-accent hover:from-primary-600 hover:to-accent-600 rounded-gaming text-background font-semibold transition-all btn-gaming focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background shadow-gaming glow-primary"
+                    >
+                        Create Clan
+                    </button>
+                </div>
+            </div>
+        </form>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-surface rounded-lg border border-accent/20 max-w-md w-full p-6 shadow-gaming transform transition-all">
+            <div class="text-center">
+                <div class="bg-accent/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-text-primary mb-2">Clan Created Successfully!</h3>
+                <p class="text-text-secondary mb-6">Your clan <span id="created-clan-name" class="text-accent font-medium"></span> has been established. You are now the clan leader!</p>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <button id="view-clan-btn" class="flex-1 bg-accent hover:bg-accent-600 text-white font-medium py-2 px-4 rounded-md transition-gaming">
+                        View Clan Profile
+                    </button>
+                    <button id="invite-members-btn" class="flex-1 bg-surface-800 hover:bg-surface-700 text-text-primary border border-gaming font-medium py-2 px-4 rounded-md transition-gaming">
+                        Invite Members
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-surface border-t border-gaming-light mt-16">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <p class="text-text-secondary text-sm">
+                    © 2025 GameArenaX Clan Portal. All Rights Reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const slider = document.getElementById("member-limit");
+        const output = document.getElementById("member-limit-display");
+
+        // Set initial value (in case the HTML default changes)
+        output.textContent = slider.value;
+
+        // Update on slider move
+        slider.addEventListener("input", () => {
+            output.textContent = slider.value;
+        });
+    });
+</script>
+<script src="assets/jq/jquery-3.7.1.min.js"></script>
+<script src="js/signup.js"></script>
+<script src="js/create_clan.js"></script>
+</body>
+</html>
