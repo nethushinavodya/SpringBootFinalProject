@@ -21,5 +21,5 @@ environment that connects all participants in one digital space.
 
 ## 🎥 Project Demo(youtube)  
 
-[![Watch the video](https://img.youtube.com/vi/DEx0rPgRWS8/0.jpg)](https://youtu.be/DEx0rPgRWS8)
+[![Watch the video](https://img.youtube.com/vi/DEx0rPgRWS8/0.jpg)](https://youtu.be/ytmWqZC5Wig?si=IKt71lCyrjH4fFbE)
 
